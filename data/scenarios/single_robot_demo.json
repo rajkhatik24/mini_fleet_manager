@@ -1,0 +1,15 @@
+{
+  "map": "data/maps/demo_warehouse.json",
+
+  "tasks": "data/tasks/demo_tasks.json",
+
+  "robots": [
+    {
+      "robot_id": "R1",
+
+      "start_position": [1, 1],
+
+      "battery": 100
+    }
+  ]
+}

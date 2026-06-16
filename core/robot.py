@@ -1,26 +1,8 @@
 from dataclasses import dataclass, field
-from enum import Enum
 from typing import Optional
 
-from core.types import Position, Path, RobotID, TaskID
-
-
-class RobotStatus(Enum):
-    IDLE = "idle"
-    EXECUTING = "executing"
-    WAITING = "waiting"
-    BLOCKED = "blocked"
-    CHARGING = "charging"
-    OFFLINE = "offline"
-    ERROR = "error"
-
-
-class RobotExecutionState(Enum):
-    NONE = "none"
-    NAVIGATING = "navigating"
-    PICKING = "picking"
-    DROPPING = "dropping"
-    DOCKING = "docking"
+from core.state import RobotExecutionState, RobotStatus
+from core.types import Path, Position, RobotID, TaskID
 
 
 @dataclass

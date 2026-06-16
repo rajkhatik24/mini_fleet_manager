@@ -1,0 +1,27 @@
+{
+  "map": "data/maps/demo_warehouse.json",
+
+  "tasks": "data/tasks/demo_tasks.json",
+
+  "robots": [
+    {
+      "robot_id": "R1",
+      "start_position": [1, 1]
+    },
+
+    {
+      "robot_id": "R2",
+      "start_position": [18, 1]
+    },
+
+    {
+      "robot_id": "R3",
+      "start_position": [1, 13]
+    },
+
+    {
+      "robot_id": "R4",
+      "start_position": [18, 13]
+    }
+  ]
+}
