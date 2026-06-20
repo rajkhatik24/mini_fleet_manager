@@ -7,17 +7,15 @@ class NearestRobotScheduler(SchedulerBase):
     def assign_tasks(self, robots, tasks, warehouse_map):
         assignments = {}
 
-        available_robots = []
+        available_robots = [
+            robot for robot in robots
+            if robot.is_available()
+        ]
 
-        for robot in robots:
-            if robot.is_available():
-                available_robots.append(robot)
-
-        pending_tasks = []
-
-        for task in tasks:
-            if task.status == TaskStatus.CREATED:
-                pending_tasks.append(task)
+        pending_tasks = [
+            task for task in tasks
+            if task.status == TaskStatus.CREATED
+        ]
 
         pending_tasks.sort(
             key=self._get_task_priority,
@@ -26,7 +24,7 @@ class NearestRobotScheduler(SchedulerBase):
 
         for task in pending_tasks:
 
-            if len(available_robots) == 0:
+            if not available_robots:
                 break
 
             pickup_position = self._get_pickup_position(
@@ -39,11 +37,14 @@ class NearestRobotScheduler(SchedulerBase):
                 pickup_position
             )
 
-            task.assign(best_robot.robot_id)
-            best_robot.assign_task(task.task_id)
+            self.assign_robot_to_task(
+                best_robot,
+                task,
+                pickup_position,
+                warehouse_map
+            )
 
             assignments[task.task_id] = best_robot.robot_id
-
             available_robots.remove(best_robot)
 
         return assignments
@@ -60,7 +61,6 @@ class NearestRobotScheduler(SchedulerBase):
         best_distance = float("inf")
 
         for robot in robots:
-
             distance = self._manhattan_distance(
                 robot.position,
                 pickup_position

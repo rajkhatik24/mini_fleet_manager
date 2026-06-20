@@ -1,6 +1,6 @@
 from simulation.scenario_loader import load_scenario
 from scheduling.nearest_robot import NearestRobotScheduler
-
+from planning.manhattan_planner import ManhattanPlanner
 
 def main():
     warehouse_map, robots, tasks = load_scenario(
@@ -17,7 +17,8 @@ def main():
     for task in tasks:
         print(task)
     
-    scheduler = NearestRobotScheduler()
+    planner = ManhattanPlanner()
+    scheduler = NearestRobotScheduler(planner=planner)
     assignments = scheduler.assign_tasks(robots, tasks, warehouse_map)
 
     print("\nAssignments:")
@@ -30,6 +31,11 @@ def main():
     print("\nRobots After Assignment:")
     for robot in robots:
         print(robot)
+
+    print("\nPlanned Routes:")
+    for robot in robots:
+        if robot.planned_route:
+            print(f"Robot {robot.robot_id}: {robot.planned_route}")
 
     print("\nTasks After Assignment:")
     for task in tasks:
