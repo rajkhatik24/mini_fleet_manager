@@ -1,4 +1,7 @@
 from simulation.scenario_loader import load_scenario
+from simulation.simulation import Simulation
+from simulation.event_loop import EventLoop
+
 from scheduling.nearest_robot import NearestRobotScheduler
 from planning.manhattan_planner import ManhattanPlanner
 
@@ -36,6 +39,18 @@ def main():
     for robot in robots:
         if robot.planned_route:
             print(f"Robot {robot.robot_id}: {robot.planned_route}")
+
+
+    print("\nStarting Simulation:")
+
+    simulation = Simulation(
+        warehouse_map,
+        robots,
+        tasks
+    )
+
+    event_loop = EventLoop(simulation)
+    event_loop.run(max_ticks=30)
 
     print("\nTasks After Assignment:")
     for task in tasks:

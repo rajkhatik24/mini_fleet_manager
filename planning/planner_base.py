@@ -9,8 +9,8 @@ class PlannerBase(ABC):
     @abstractmethod
     def plan(
         self,
-        warehouse_map: WarehouseMap,
         start: Position,
         goal: Position,
+        warehouse_map: WarehouseMap
     ) -> Path:
         pass
