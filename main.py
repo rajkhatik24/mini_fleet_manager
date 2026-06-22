@@ -1,6 +1,7 @@
 from simulation.scenario_loader import load_scenario
 from simulation.simulation import Simulation
 from simulation.event_loop import EventLoop
+from simulation.task_executor import TaskExecutor
 
 from scheduling.nearest_robot import NearestRobotScheduler
 from planning.manhattan_planner import ManhattanPlanner
@@ -43,14 +44,22 @@ def main():
 
     print("\nStarting Simulation:")
 
+
+    task_executor = TaskExecutor(
+        warehouse_map,
+        tasks,
+        planner
+    )
+
     simulation = Simulation(
         warehouse_map,
         robots,
-        tasks
+        tasks,
+        task_executor
     )
 
     event_loop = EventLoop(simulation)
-    event_loop.run(max_ticks=30)
+    event_loop.run(max_ticks=100)
 
     print("\nTasks After Assignment:")
     for task in tasks:

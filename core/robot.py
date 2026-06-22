@@ -30,7 +30,7 @@ class Robot:
     def assign_task(self, task_id: TaskID) -> None:
         self.assigned_task_id = task_id
         self.status = RobotStatus.EXECUTING
-        self.execution_state = RobotExecutionState.NAVIGATING
+        self.execution_state = RobotExecutionState.NAVIGATING_TO_PICKUP
 
     def set_route(self, route: Path) -> None:
         self.planned_route = route
@@ -50,14 +50,13 @@ class Robot:
         if self.route_index < len(self.planned_route):
             self.position = self.planned_route[self.route_index]
             self.route_index += 1
-            self.drain_battery()
+            self.drain_battery(amount=0.1)
 
         if self.route_index >= len(self.planned_route):
             self.planned_route = []
             self.route_index = 0
-            self.execution_state = RobotExecutionState.NONE
 
-    def drain_battery(self, amount: float = 1.0) -> None:
+    def drain_battery(self, amount: float = 0.1) -> None:
         self.battery = max(0.0, self.battery - amount)
 
         if self.battery == 0.0:

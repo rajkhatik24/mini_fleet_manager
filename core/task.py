@@ -25,8 +25,8 @@ class Task:
         self.assigned_robot_id = robot_id
         self.status = TaskStatus.ASSIGNED
 
-    def activate(self) -> None:
-        self.status = TaskStatus.ACTIVE
+    def start(self) -> None:
+        self.status = TaskStatus.IN_PROGRESS
 
     def block(self) -> None:
         self.status = TaskStatus.BLOCKED

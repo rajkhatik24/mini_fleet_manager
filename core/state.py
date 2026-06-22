@@ -13,8 +13,9 @@ class RobotStatus(Enum):
 
 class RobotExecutionState(Enum):
     NONE = "none"
-    NAVIGATING = "navigating"
+    NAVIGATING_TO_PICKUP = "navigating_to_pickup"
     PICKING = "picking"
+    NAVIGATING_TO_DROPOFF = "navigating_to_dropoff"
     DROPPING = "dropping"
     DOCKING = "docking"
 
@@ -23,7 +24,7 @@ class TaskStatus(Enum):
     CREATED = "created"
     QUEUED = "queued"
     ASSIGNED = "assigned"
-    ACTIVE = "active"
+    IN_PROGRESS = "in_progress"
     BLOCKED = "blocked"
     COMPLETED = "completed"
     FAILED = "failed"
