@@ -6,9 +6,12 @@ from simulation.task_executor import TaskExecutor
 from scheduling.nearest_robot import NearestRobotScheduler
 from planning.manhattan_planner import ManhattanPlanner
 
+from visualization.matplotlib_visualizer import MatplotlibVisualizer
+
+
 def main():
     warehouse_map, robots, tasks = load_scenario(
-        "data/scenarios/four_robot_demo.json"
+        "data/scenarios/single_robot_demo.json"
     )
 
     print(warehouse_map)
@@ -58,7 +61,15 @@ def main():
         task_executor
     )
 
-    event_loop = EventLoop(simulation)
+    visualizer = MatplotlibVisualizer(
+        warehouse_map,
+        pause_time = 0.5
+    )
+
+    event_loop = EventLoop(
+        simulation,
+        visualizer
+    )
     event_loop.run(max_ticks=100)
 
     print("\nTasks After Assignment:")

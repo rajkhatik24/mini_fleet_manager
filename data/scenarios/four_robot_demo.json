@@ -1,7 +1,7 @@
 {
   "map": "data/maps/demo_warehouse.json",
 
-  "tasks": "data/tasks/demo_tasks.json",
+  "tasks": "data/tasks/multi_robot_demo_tasks.json",
 
   "robots": [
     {

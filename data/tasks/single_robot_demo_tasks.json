@@ -1,0 +1,12 @@
+[
+  {
+    "task_id": "T1",
+    "task_type": "transport",
+    "priority": 1,
+
+    "parameters": {
+      "pickup": "P1",
+      "dropoff": "D1"
+    }
+  }
+]
