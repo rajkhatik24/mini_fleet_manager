@@ -4,14 +4,14 @@ from simulation.event_loop import EventLoop
 from simulation.task_executor import TaskExecutor
 
 from scheduling.nearest_robot import NearestRobotScheduler
-from planning.manhattan_planner import ManhattanPlanner
+from planning.astar_planner import AStarPlanner
 
 from visualization.matplotlib_visualizer import MatplotlibVisualizer
 
 
 def main():
     warehouse_map, robots, tasks = load_scenario(
-        "data/scenarios/single_robot_demo.json"
+        "data/scenarios/four_robot_demo.json"
     )
 
     print(warehouse_map)
@@ -24,7 +24,7 @@ def main():
     for task in tasks:
         print(task)
     
-    planner = ManhattanPlanner()
+    planner = AStarPlanner()
     scheduler = NearestRobotScheduler(planner=planner)
     assignments = scheduler.assign_tasks(robots, tasks, warehouse_map)
 
