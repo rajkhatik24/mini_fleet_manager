@@ -4,7 +4,9 @@ from simulation.event_loop import EventLoop
 from simulation.task_executor import TaskExecutor
 
 from scheduling.nearest_robot import NearestRobotScheduler
-from planning.astar_planner import AStarPlanner
+
+from planning.cooperative_astar import CooperativeAStarPlanner
+from planning.reservation_table import ReservationTable
 
 from fleet_manager.coordinator import Coordinator
 
@@ -26,7 +28,12 @@ def main():
     for task in tasks:
         print(task)
 
-    planner = AStarPlanner()
+    reservation_table = ReservationTable()
+
+    planner = CooperativeAStarPlanner(
+        reservation_table=reservation_table
+    )
+
 
     scheduler = NearestRobotScheduler()
     assignments = scheduler.assign_tasks(
@@ -36,10 +43,12 @@ def main():
     )
 
     coordinator = Coordinator(
-        planner=planner
+        planner=planner,
+        reservation_table=reservation_table
     )
 
-    coordinator.plan_routes_to_pickups(
+
+    coordinator.plan_full_routes(
         robots,
         tasks,
         warehouse_map

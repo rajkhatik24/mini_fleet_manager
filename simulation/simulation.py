@@ -18,14 +18,9 @@ class Simulation:
         }
 
         for robot in self.robots:
-            had_route = bool(robot.planned_route)
-
             robot.move_one_step()
 
-            route_finished = had_route and not robot.planned_route
-
-            if route_finished:
-                self.task_executor.handle_route_finished(robot)
+            self.task_executor.update_robot_task_state(robot)
 
             print(robot)
 

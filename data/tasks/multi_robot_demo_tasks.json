@@ -19,5 +19,26 @@
       "pickup": "P2",
       "dropoff": "D2"
     }
+  },
+    {
+    "task_id": "T3",
+    "task_type": "transport",
+    "priority": 2,
+
+    "parameters": {
+      "pickup": "P3",
+      "dropoff": "D3"
+    }
+  },  
+
+  {
+    "task_id": "T4",
+    "task_type": "transport",
+    "priority": 2,
+
+    "parameters": {
+      "pickup": "P4",
+      "dropoff": "D4"
+    }
   }
 ]

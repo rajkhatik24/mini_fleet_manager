@@ -6,7 +6,7 @@ class Coordinator:
         self.planner = planner
         self.reservation_table = reservation_table
 
-    def plan_routes_to_pickups(
+    def plan_full_routes(
         self,
         robots,
         tasks,
@@ -34,20 +34,40 @@ class Coordinator:
                 warehouse_map
             )
 
-            route = self.planner.plan(
-                robot.position,
-                pickup_position,
+            dropoff_position = self._get_dropoff_position(
+                task,
                 warehouse_map
             )
 
-            robot.set_route(route)
+            route_to_pickup = self._plan_route(
+                robot.position,
+                pickup_position,
+                warehouse_map,
+                start_time=0
+            )
+
+            pickup_arrival_time = len(route_to_pickup)
+
+            route_to_dropoff = self._plan_route(
+                pickup_position,
+                dropoff_position,
+                warehouse_map,
+                start_time=pickup_arrival_time
+            )
+
+            full_route = route_to_pickup + route_to_dropoff
+
+            robot.set_route(full_route)
 
             if self.reservation_table is not None:
+                reservation_path = [robot.position] + full_route
+
                 self.reservation_table.reserve_path(
                     robot_id=robot.robot_id,
-                    path=route,
-                    start_time=1
-                )
+                    path=reservation_path,
+                    start_time=0,
+                    hold_time=50
+)
 
     def _get_task_by_id(
         self,
@@ -69,3 +89,35 @@ class Coordinator:
 
         pickup_id = task.parameters["pickup"]
         return warehouse_map.pickup_points[pickup_id]
+
+    def _get_dropoff_position(
+        self,
+        task,
+        warehouse_map
+    ):
+
+        dropoff_id = task.parameters["dropoff"]
+        return warehouse_map.dropoff_points[dropoff_id]
+    
+
+    def _plan_route(
+    self,
+    start,
+    goal,
+    warehouse_map,
+    start_time: int = 0
+    ):
+
+        try:
+            return self.planner.plan(
+                start,
+                goal,
+                warehouse_map,
+                start_time=start_time
+            )
+        except TypeError:
+            return self.planner.plan(
+                start,
+                goal,
+                warehouse_map
+            )

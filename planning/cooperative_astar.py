@@ -29,7 +29,8 @@ class CooperativeAStarPlanner(PlannerBase):
         self,
         start: Position,
         goal: Position,
-        warehouse_map: WarehouseMap
+        warehouse_map: WarehouseMap,
+        start_time: int = 0
     ) -> Path:
 
         if start == goal:
@@ -37,7 +38,7 @@ class CooperativeAStarPlanner(PlannerBase):
 
         open_set = []
 
-        start_state = (start, 0)
+        start_state = (start, start_time)
 
         heappush(
             open_set,
@@ -63,7 +64,7 @@ class CooperativeAStarPlanner(PlannerBase):
                     current_state
                 )
 
-            if current_time >= self.max_time:
+            if current_time >= start_time + self.max_time:
                 continue
 
             next_time = current_time + 1

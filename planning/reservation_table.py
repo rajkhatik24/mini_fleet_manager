@@ -10,7 +10,8 @@ class ReservationTable:
         self,
         robot_id: RobotID,
         path: Path,
-        start_time: int = 0
+        start_time: int = 1,
+        hold_time: int = 50
     ) -> None:
 
         if not path:
@@ -30,12 +31,17 @@ class ReservationTable:
 
             previous_position = position
 
+        final_position = path[-1]
+        final_time = start_time + len(path)
+
+        for time_step in range(final_time, final_time + hold_time):
+            self.vertex_reservations[(final_position, time_step)] = robot_id
+
     def is_vertex_reserved(
         self,
         position: Position,
         time_step: int
     ) -> bool:
-
         return (position, time_step) in self.vertex_reservations
 
     def is_edge_reserved(
