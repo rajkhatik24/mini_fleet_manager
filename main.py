@@ -6,6 +6,8 @@ from simulation.task_executor import TaskExecutor
 from scheduling.nearest_robot import NearestRobotScheduler
 from planning.astar_planner import AStarPlanner
 
+from fleet_manager.coordinator import Coordinator
+
 from visualization.matplotlib_visualizer import MatplotlibVisualizer
 
 
@@ -23,10 +25,25 @@ def main():
     print("\nTasks:")
     for task in tasks:
         print(task)
-    
+
     planner = AStarPlanner()
-    scheduler = NearestRobotScheduler(planner=planner)
-    assignments = scheduler.assign_tasks(robots, tasks, warehouse_map)
+
+    scheduler = NearestRobotScheduler()
+    assignments = scheduler.assign_tasks(
+        robots,
+        tasks,
+        warehouse_map
+    )
+
+    coordinator = Coordinator(
+        planner=planner
+    )
+
+    coordinator.plan_routes_to_pickups(
+        robots,
+        tasks,
+        warehouse_map
+    )
 
     print("\nAssignments:")
     if assignments:
@@ -44,9 +61,7 @@ def main():
         if robot.planned_route:
             print(f"Robot {robot.robot_id}: {robot.planned_route}")
 
-
     print("\nStarting Simulation:")
-
 
     task_executor = TaskExecutor(
         warehouse_map,
@@ -63,13 +78,14 @@ def main():
 
     visualizer = MatplotlibVisualizer(
         warehouse_map,
-        pause_time = 0.5
+        pause_time=0.5
     )
 
     event_loop = EventLoop(
         simulation,
         visualizer
     )
+
     event_loop.run(max_ticks=100)
 
     print("\nTasks After Assignment:")

@@ -39,9 +39,7 @@ class NearestRobotScheduler(SchedulerBase):
 
             self.assign_robot_to_task(
                 best_robot,
-                task,
-                pickup_position,
-                warehouse_map
+                task
             )
 
             assignments[task.task_id] = best_robot.robot_id
