@@ -2,8 +2,9 @@ from core.state import TaskStatus
 
 
 class Coordinator:
-    def __init__(self, planner):
+    def __init__(self, planner, reservation_table=None):
         self.planner = planner
+        self.reservation_table = reservation_table
 
     def plan_routes_to_pickups(
         self,
@@ -40,6 +41,13 @@ class Coordinator:
             )
 
             robot.set_route(route)
+
+            if self.reservation_table is not None:
+                self.reservation_table.reserve_path(
+                    robot_id=robot.robot_id,
+                    path=route,
+                    start_time=1
+                )
 
     def _get_task_by_id(
         self,
