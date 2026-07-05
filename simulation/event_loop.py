@@ -2,10 +2,16 @@ from simulation.clock import SimulationClock
 
 
 class EventLoop:
-    def __init__(self, simulation, visualizer=None):
+    def __init__(self, simulation, visualizer=None, visualizers=None):
         self.simulation = simulation
-        self.visualizer = visualizer
         self.clock = SimulationClock()
+
+        if visualizers is not None:
+            self.visualizers = visualizers
+        elif visualizer is not None:
+            self.visualizers = [visualizer]
+        else:
+            self.visualizers = []
 
     def run(self, max_ticks: int = 100) -> None:
         for _ in range(max_ticks):
@@ -13,8 +19,8 @@ class EventLoop:
 
             self.simulation.tick(current_tick)
 
-            if self.visualizer is not None:
-                self.visualizer.render(
+            for visualizer in self.visualizers:
+                visualizer.render(
                     robots=self.simulation.robots,
                     tasks=self.simulation.tasks,
                     current_tick=current_tick,
@@ -24,5 +30,5 @@ class EventLoop:
                 print("\nAll tasks completed.")
                 break
 
-        if self.visualizer is not None:
-            self.visualizer.close()
+        for visualizer in self.visualizers:
+            visualizer.close()

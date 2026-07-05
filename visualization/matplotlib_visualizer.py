@@ -28,7 +28,9 @@ class MatplotlibVisualizer:
         self.ax.set_yticks(range(self.warehouse_map.height))
         self.ax.grid(True)
 
-        self.ax.invert_yaxis()
+        #self.ax.invert_yaxis()
+        self.ax.set_xlim(-0.5, self.warehouse_map.width - 0.5)
+        self.ax.set_ylim(-0.5, self.warehouse_map.height - 0.5)
 
         plt.pause(self.pause_time)
 

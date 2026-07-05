@@ -11,6 +11,7 @@ from planning.reservation_table import ReservationTable
 from fleet_manager.coordinator import Coordinator
 
 from visualization.matplotlib_visualizer import MatplotlibVisualizer
+from ros2_adapter.robot_state_pub import RobotStatePublisher
 
 
 def main():
@@ -85,14 +86,21 @@ def main():
         task_executor
     )
 
-    visualizer = MatplotlibVisualizer(
+    matplotlib_visualizer = MatplotlibVisualizer(
         warehouse_map,
         pause_time=0.5
     )
 
+    ros2_visualizer = RobotStatePublisher(
+        warehouse_map
+    )
+
     event_loop = EventLoop(
         simulation,
-        visualizer
+        visualizers =[
+            matplotlib_visualizer,
+            ros2_visualizer
+        ]
     )
 
     event_loop.run(max_ticks=100)
