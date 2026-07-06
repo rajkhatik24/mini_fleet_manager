@@ -1,0 +1,28 @@
+{
+    "map": "data/maps/demo_mapf_warehouse.json",
+
+    "tasks": "data/tasks/mapf_robot_demo_tasks.json",
+
+    "robots": [
+    {
+        "robot_id": "R1",
+        "start_position": [1, 7],
+        "battery": 100
+    },
+    {
+        "robot_id": "R2",
+        "start_position": [19, 7],
+        "battery": 100
+    },
+    {
+        "robot_id": "R3",
+        "start_position": [1, 13],
+        "battery": 100
+    },
+    {
+        "robot_id": "R4",
+        "start_position": [19, 1],
+        "battery": 100
+    }
+    ]
+}

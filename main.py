@@ -16,7 +16,7 @@ from ros2_adapter.robot_state_pub import RobotStatePublisher
 
 def main():
     warehouse_map, robots, tasks = load_scenario(
-        "data/scenarios/four_robot_demo.json"
+        "data/scenarios/mapf_overlap_demo.json"
     )
 
     print(warehouse_map)

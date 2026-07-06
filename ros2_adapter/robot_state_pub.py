@@ -19,11 +19,24 @@ class RobotStatePublisher(Node):
             "/fleet/markers",
             10,
         )
+    def _robot_color(self, robot_index):
+        colors = [
+            (0.0, 0.3, 1.0, 1.0),  # blue
+            (1.0, 0.2, 0.2, 1.0),  # red
+            (0.2, 1.0, 0.2, 1.0),  # green
+            (1.0, 0.7, 0.0, 1.0),  # orange
+            (0.8, 0.2, 1.0, 1.0),  # purple
+        ]
+        return colors[robot_index % len(colors)]
 
     def render(self, robots, tasks=None, current_tick: int = 0) -> None:
         markers = MarkerArray()
-        marker_id = 0
 
+        delete_marker = Marker()
+        delete_marker.action = Marker.DELETEALL
+        markers.markers.append(delete_marker)
+
+        marker_id = 0
 
         marker_id = self._add_warehouse_floor(
             markers,
@@ -137,7 +150,7 @@ class RobotStatePublisher(Node):
         return marker_id
 
     def _add_robots(self, markers, marker_id, robots):
-        for robot in robots:
+        for index, robot in enumerate(robots):
             marker = Marker()
             marker.header.frame_id = self.frame_id
             marker.header.stamp = self.get_clock().now().to_msg()
@@ -152,14 +165,15 @@ class RobotStatePublisher(Node):
             marker.pose.position.z = 0.35
             marker.pose.orientation.w = 1.0
 
-            marker.scale.x = 0.6
-            marker.scale.y = 0.6
+            marker.scale.x = 0.75
+            marker.scale.y = 0.75
             marker.scale.z = 0.35
 
-            marker.color.r = 0.0
-            marker.color.g = 0.3
-            marker.color.b = 1.0
-            marker.color.a = 1.0
+            color = self._robot_color(index)
+            marker.color.r = color[0]
+            marker.color.g = color[1]
+            marker.color.b = color[2]
+            marker.color.a = color[3]
 
             markers.markers.append(marker)
             marker_id += 1
@@ -182,7 +196,7 @@ class RobotStatePublisher(Node):
         return marker_id
 
     def _add_planned_routes(self, markers, marker_id, robots):
-        for robot in robots:
+        for index, robot in enumerate(robots):
             if not robot.planned_route:
                 continue
 
@@ -195,11 +209,12 @@ class RobotStatePublisher(Node):
             marker.action = Marker.ADD
 
             marker.pose.orientation.w = 1.0
-            marker.scale.x = 0.05
+            marker.scale.x = 0.08
 
-            marker.color.r = 1.0
-            marker.color.g = 1.0
-            marker.color.b = 0.0
+            color = self._robot_color(index)
+            marker.color.r = color[0]
+            marker.color.g = color[1]
+            marker.color.b = color[2]
             marker.color.a = 1.0
 
             for x, y in robot.planned_route:

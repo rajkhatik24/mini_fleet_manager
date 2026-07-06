@@ -1,0 +1,38 @@
+[
+    {
+      "task_id": "T1",
+      "task_type": "transport",
+      "priority": 5,
+      "parameters": {
+        "pickup": "P1",
+        "dropoff": "D1"
+      }
+    },
+    {
+      "task_id": "T2",
+      "task_type": "transport",
+      "priority": 5,
+      "parameters": {
+        "pickup": "P3",
+        "dropoff": "D3"
+      }
+    },
+    {
+      "task_id": "T3",
+      "task_type": "transport",
+      "priority": 4,
+      "parameters": {
+        "pickup": "P2",
+        "dropoff": "D2"
+      }
+    },
+    {
+      "task_id": "T4",
+      "task_type": "transport",
+      "priority": 4,
+      "parameters": {
+        "pickup": "P4",
+        "dropoff": "D4"
+      }
+    }
+]
